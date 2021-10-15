@@ -4,39 +4,38 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import UseStore from "../store";
 import { useState } from "react";
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip from "@mui/material/Tooltip";
+import { InputBase, Paper, Stack } from "@mui/material";
+import faker from "faker/locale/tr";
+
 export default function BasicTextFields() {
   const store = UseStore();
-  const [temp, setTemp] = useState("");
+  const [temp, setTemp] = useState(faker.lorem.lines(1));
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="outlined-basic"
-        label="Outlined"
-        variant="outlined"
-        onChange={(e) => {
-          setTemp(e.target.value);
-        }}
-      />
-      <Tooltip title="Add ToDo" arrow>
-        <Button
-          variant="contained"
-          style={{ width: "30px" }}
-          onClick={() => {
-            store.addTodo(temp);
-            console.log(store.todos);
+    <Paper sx={{ width: 420, mx: "auto", mt: 5, mb: 3, py: 1, px: 2 }}>
+      <Stack flexDirection="row">
+        <InputBase
+          placeholder="Outlined"
+          value={temp}
+          multiline
+          onChange={(e) => {
+            setTemp(e.target.value);
           }}
-        >
-          Add
-        </Button>
-      </Tooltip>
-    </Box>
+          sx={{ flex: 1, mr: 2, py: 1.5, px: 2 }}
+        />
+        <Tooltip title="Add ToDo" arrow>
+          <Button
+            variant="contained"
+            style={{ width: "30px" }}
+            onClick={() => {
+              store.addTodo(temp);
+              setTemp(faker.lorem.lines(1));
+            }}
+          >
+            Add
+          </Button>
+        </Tooltip>
+      </Stack>
+    </Paper>
   );
 }
